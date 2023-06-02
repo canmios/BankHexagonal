@@ -1,0 +1,55 @@
+plugins {
+    id 'org.springframework.boot' version '2.5.5'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+    id 'com.diffplug.spotless' version '6.18.0'
+}
+
+group 'com.ontop'
+version '1.0-SNAPSHOT'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+repositories {
+    jcenter()
+    mavenCentral()
+    maven { url 'https://repo.spring.io/milestone' }
+    // Add this line if the dependency is in the Spring Milestone repository
+    maven { url 'https://repo.spring.io/libs-milestone' }
+    maven { url 'https://repo.spring.io/libs-snapshot' }
+}
+
+spotless {
+    java {
+        target fileTree('.') {
+            include '**/*.java'
+            exclude '**/build/**', '**/build-*/**'
+        }
+        toggleOffOn()
+        googleJavaFormat('1.16.0')
+        removeUnusedImports()
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+}
+
+dependencies {
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:3.0.4'
+    runtimeOnly 'com.h2database:h2'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    compileOnly 'org.projectlombok:lombok:1.18.22'
+    annotationProcessor 'org.projectlombok:lombok:1.18.22'
+    implementation 'org.mapstruct:mapstruct:1.5.0.Beta1'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.0.Beta1'
+}
+
+test {
+    useJUnitPlatform()
+}
